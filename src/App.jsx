@@ -1,5 +1,35 @@
+import axios from "axios"
+import { useEffect, useState } from "react"
 
 function App() {
+    
+  //  const [allType , setAllType]=useState([])
+
+  //  "https://pokeapi.co/api/v2/type?limit=21"
+
+   async function handleApi(){
+       const response =await axios.get("https://pokeapi.co/api/v2/type?limit=21")
+      //  console.log(response.data.results)
+      const result = (response.data.results)
+      showContent(result)
+    }
+
+    const showContent = async (result) => {
+      for (const item of result) {
+        try {
+          const response = await axios.get(item.url);
+          console.log(response);
+        } catch (error) {
+          console.error(`Error fetching ${item.url}:, error`);
+        }
+      }
+    };
+    useEffect(()=>{
+      handleApi()
+      showContent()
+    },[])
+
+
 
   return (
     <>
